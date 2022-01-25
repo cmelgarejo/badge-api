@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS points (
     id SERIAL NOT NULL,
     user_id INT NOT NULL,
-    points numeric(12, 2) NOT NULL DEFAULT 0.0,
-    metadata jsonb NULL,
+    points NUMERIC(12, 2) NOT NULL DEFAULT 0.0,
+    metadata TEXT NULL, -- metadata jsonb NULL,
     assigned_at TIMESTAMP NOT NULL,
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),

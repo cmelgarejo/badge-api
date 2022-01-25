@@ -14,13 +14,13 @@ type BadgeRepository struct {
 }
 
 // GetAll returns all badges.
-func (pr *BadgeRepository) GetAll(ctx context.Context) ([]badge.Badge, error) {
+func (br *BadgeRepository) GetAll(ctx context.Context) ([]badge.Badge, error) {
 	q := `
 	SELECT id, body, user_id, created_at, updated_at
 		FROM badges;
 	`
 
-	rows, err := pr.Data.DB.QueryContext(ctx, q)
+	rows, err := br.Data.DB.QueryContext(ctx, q)
 	if err != nil {
 		return nil, err
 	}
@@ -38,13 +38,13 @@ func (pr *BadgeRepository) GetAll(ctx context.Context) ([]badge.Badge, error) {
 }
 
 // GetOne returns one badge by id.
-func (pr *BadgeRepository) GetOne(ctx context.Context, id uint) (badge.Badge, error) {
+func (br *BadgeRepository) GetOne(ctx context.Context, id uint) (badge.Badge, error) {
 	q := `
 	SELECT id, body, user_id, created_at, updated_at
 		FROM badges WHERE id = $1;
 	`
 
-	row := pr.Data.DB.QueryRowContext(ctx, q, id)
+	row := br.Data.DB.QueryRowContext(ctx, q, id)
 
 	var p badge.Badge
 	err := row.Scan(&p.ID, &p.Body, &p.UserID, &p.CreatedAt, &p.UpdatedAt)
@@ -56,14 +56,14 @@ func (pr *BadgeRepository) GetOne(ctx context.Context, id uint) (badge.Badge, er
 }
 
 // GetByUser returns all user badges.
-func (pr *BadgeRepository) GetByUser(ctx context.Context, userID uint) ([]badge.Badge, error) {
+func (br *BadgeRepository) GetByUser(ctx context.Context, userID uint) ([]badge.Badge, error) {
 	q := `
 	SELECT id, body, user_id, created_at, updated_at
 		FROM badges
 		WHERE user_id = $1;
 	`
 
-	rows, err := pr.Data.DB.QueryContext(ctx, q, userID)
+	rows, err := br.Data.DB.QueryContext(ctx, q, userID)
 	if err != nil {
 		return nil, err
 	}
@@ -81,14 +81,14 @@ func (pr *BadgeRepository) GetByUser(ctx context.Context, userID uint) ([]badge.
 }
 
 // Create adds a new badge.
-func (pr *BadgeRepository) Create(ctx context.Context, p *badge.Badge) error {
+func (br *BadgeRepository) Create(ctx context.Context, p *badge.Badge) error {
 	q := `
 	INSERT INTO badges (body, user_id, created_at, updated_at)
 		VALUES ($1, $2, $3, $4)
 		RETURNING id;
 	`
 
-	stmt, err := pr.Data.DB.PrepareContext(ctx, q)
+	stmt, err := br.Data.DB.PrepareContext(ctx, q)
 	if err != nil {
 		return err
 	}
@@ -106,13 +106,13 @@ func (pr *BadgeRepository) Create(ctx context.Context, p *badge.Badge) error {
 }
 
 // Update updates a badge by id.
-func (pr *BadgeRepository) Update(ctx context.Context, id uint, p badge.Badge) error {
+func (br *BadgeRepository) Update(ctx context.Context, id uint, p badge.Badge) error {
 	q := `
 	UPDATE badges set body=$1, updated_at=$2
 		WHERE id=$3;
 	`
 
-	stmt, err := pr.Data.DB.PrepareContext(ctx, q)
+	stmt, err := br.Data.DB.PrepareContext(ctx, q)
 	if err != nil {
 		return err
 	}
@@ -130,10 +130,10 @@ func (pr *BadgeRepository) Update(ctx context.Context, id uint, p badge.Badge) e
 }
 
 // Delete removes a badge by id.
-func (pr *BadgeRepository) Delete(ctx context.Context, id uint) error {
+func (br *BadgeRepository) Delete(ctx context.Context, id uint) error {
 	q := `DELETE FROM badges WHERE id=$1;`
 
-	stmt, err := pr.Data.DB.PrepareContext(ctx, q)
+	stmt, err := br.Data.DB.PrepareContext(ctx, q)
 	if err != nil {
 		return err
 	}

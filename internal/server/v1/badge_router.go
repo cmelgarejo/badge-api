@@ -147,7 +147,7 @@ func (pr *BadgeRouter) Routes() http.Handler {
 
 	r.Use(middleware.Authorize)
 
-	r.Get("/user/{userId}", pr.GetByUserHandler)
+	r.Get("/user/{user_id}", pr.GetByUserHandler)
 
 	r.Get("/", pr.GetAllHandler)
 

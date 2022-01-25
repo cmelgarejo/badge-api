@@ -14,7 +14,9 @@ type UserRepository struct {
 
 // GetAll returns all users.
 func (ur *UserRepository) GetAll(ctx context.Context) ([]user.User, error) {
-	rows, err := ur.Data.DB.QueryContext(ctx, "SELECT * FROM users;")
+	rows, err := ur.Data.DB.QueryContext(ctx, `SELECT id, first_name, last_name,
+	username, email, picture, created_at, updated_at FROM users;`)
+
 	if err != nil {
 		return nil, err
 	}
@@ -34,7 +36,9 @@ func (ur *UserRepository) GetAll(ctx context.Context) ([]user.User, error) {
 
 // GetOne returns one user by id.
 func (ur *UserRepository) GetOne(ctx context.Context, id uint) (user.User, error) {
-	row := ur.Data.DB.QueryRowContext(ctx, "SELECT * FROM users WHERE id = $1;", id)
+	row := ur.Data.DB.QueryRowContext(ctx, `SELECT id, first_name, last_name,
+	username, email, picture, created_at, updated_at
+	FROM users WHERE id = $1;`, id)
 
 	var u user.User
 	err := row.Scan(&u.ID, &u.FirstName, &u.LastName, &u.Username, &u.Email,
@@ -48,7 +52,8 @@ func (ur *UserRepository) GetOne(ctx context.Context, id uint) (user.User, error
 
 // GetByUsername returns one user by username.
 func (ur *UserRepository) GetByUsername(ctx context.Context, username string) (user.User, error) {
-	row := ur.Data.DB.QueryRowContext(ctx, "SELECT * FROM users WHERE username = $1;", username)
+	row := ur.Data.DB.QueryRowContext(ctx, `SELECT id, first_name, last_name,
+	username, email, picture, password, created_at, updated_at FROM users WHERE username = $1;`, username)
 
 	var u user.User
 	err := row.Scan(&u.ID, &u.FirstName, &u.LastName, &u.Username,
@@ -62,8 +67,8 @@ func (ur *UserRepository) GetByUsername(ctx context.Context, username string) (u
 
 // Create adds a new user.
 func (ur *UserRepository) Create(ctx context.Context, u *user.User) error {
-	q := `INSERT INTO users (first_name, last_name, username, email, picture, password, created_at, updated_at)
-		VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+	q := `INSERT INTO users (org_id, first_name, last_name, username, email, picture, password, created_at, updated_at)
+		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
 		RETURNING id;`
 
 	if u.Picture == "" {
@@ -81,7 +86,7 @@ func (ur *UserRepository) Create(ctx context.Context, u *user.User) error {
 
 	defer stmt.Close()
 
-	row := stmt.QueryRowContext(ctx, u.FirstName, u.LastName, u.Username, u.Email,
+	row := stmt.QueryRowContext(ctx, u.OrgID, u.FirstName, u.LastName, u.Username, u.Email,
 		u.Picture, u.PasswordHash, time.Now(), time.Now(),
 	)
 

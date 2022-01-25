@@ -27,5 +27,13 @@ func New() http.Handler {
 
 	r.Mount("/badges", br.Routes())
 
+	pr := &PointsRouter{
+		Repository: &data.PointRepository{
+			Data: data.New(),
+		},
+	}
+
+	r.Mount("/point", pr.Routes())
+
 	return r
 }

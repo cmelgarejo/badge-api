@@ -22,6 +22,7 @@ type UserRouter struct {
 // CreateHandler Create a new user.
 func (ur *UserRouter) CreateHandler(w http.ResponseWriter, r *http.Request) {
 	var u user.User
+
 	err := json.NewDecoder(r.Body).Decode(&u)
 	if err != nil {
 		_ = response.HTTPError(w, r, http.StatusBadRequest, err.Error())
