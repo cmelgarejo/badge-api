@@ -45,9 +45,8 @@ func (pr *PointsRouter) GetByUserHandler(w http.ResponseWriter, r *http.Request)
 	ctx := r.Context()
 	var startDate, endDate *time.Time
 	idStr := chi.URLParam(r, "user_id")
-	startStr := chi.URLParam(r, "start_date")
-	endStr := chi.URLParam(r, "start_date")
-	fmt.Printf("get points: %v - %v - %v\n\n", idStr, startStr, endStr)
+	startStr := r.URL.Query().Get("start_date")
+	endStr := r.URL.Query().Get("end_date")
 	if startStr != "" {
 		start, err := time.Parse(time.RFC3339, startStr)
 		if err != nil {

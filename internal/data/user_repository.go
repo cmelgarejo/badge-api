@@ -67,8 +67,8 @@ func (ur *UserRepository) GetByUsername(ctx context.Context, username string) (u
 
 // Create adds a new user.
 func (ur *UserRepository) Create(ctx context.Context, u *user.User) error {
-	q := `INSERT INTO users (org_id, first_name, last_name, username, email, picture, password, created_at, updated_at)
-		VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+	q := `INSERT INTO users (org_id, first_name, last_name, username, email, picture, password)
+		VALUES ($1, $2, $3, $4, $5, $6, $7)
 		RETURNING id;`
 
 	if u.Picture == "" {
