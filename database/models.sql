@@ -1,3 +1,5 @@
+BEGIN;
+
 CREATE TABLE IF NOT EXISTS orgs (
     id SERIAL NOT NULL,
     name TEXT NOT NULL,
@@ -25,7 +27,8 @@ CREATE TABLE IF NOT EXISTS points (
     id SERIAL NOT NULL,
     user_id INT NOT NULL,
     points NUMERIC(12, 2) NOT NULL DEFAULT 0.0,
-    metadata TEXT NULL, -- metadata jsonb NULL,
+    metadata TEXT NULL,
+    -- metadata jsonb NULL,
     assigned_at TIMESTAMP NOT NULL,
     created_at TIMESTAMP DEFAULT NOW(),
     updated_at TIMESTAMP DEFAULT NOW(),
@@ -53,3 +56,21 @@ CREATE TABLE IF NOT EXISTS user_badges (
     CONSTRAINT fk_user_user_badges FOREIGN KEY(badge_id) REFERENCES badges(id),
     CONSTRAINT fk_badge_user_badges FOREIGN KEY(user_id) REFERENCES users(id)
 );
+
+INSERT INTO orgs (name)
+SELECT ('Cuely')
+WHERE NOT EXISTS (
+        SELECT 1
+        FROM orgs
+        WHERE name = 'Cuely'
+    );
+
+INSERT INTO badges(name, image, org_id)
+SELECT 'Cute Dog Badge!',
+    'https://place.dog/300/300',
+    1
+WHERE NOT EXISTS (
+        SELECT 1
+        FROM badges
+        WHERE name = 'Cute Dog Badge!'
+    );

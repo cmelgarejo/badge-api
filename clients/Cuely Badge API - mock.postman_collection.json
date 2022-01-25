@@ -1,0 +1,269 @@
+{
+	"info": {
+		"_postman_id": "cf0b6518-a125-4559-8dcd-f194058a8711",
+		"name": "Cuely Badge API - mock",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"cmelgarejo\",\n    \"password\": \"test\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BADGE_API}}/users/login/",
+					"host": [
+						"{{BADGE_API}}"
+					],
+					"path": [
+						"users",
+						"login",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"cmelgarejo\",\n    \"password\": \"test\",\n    \"email\": \"cmelgarejo.dev@gmail.com\",\n    \"first_name\": \"Christian\",\n    \"last_name\": \"Melgarejo\",\n    \"org_id\": 1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BADGE_API}}/users/",
+					"host": [
+						"{{BADGE_API}}"
+					],
+					"path": [
+						"users",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BADGE_API}}/users/1",
+					"host": [
+						"{{BADGE_API}}"
+					],
+					"path": [
+						"users",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get org badges",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BADGE_API}}/badges/org/1",
+					"host": [
+						"{{BADGE_API}}"
+					],
+					"path": [
+						"badges",
+						"org",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assign user points",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"metadata\": \"{'browser':'chrome'}\",\n    \"points\": 2,\n    \"assigned_at\": \"2020-02-02T23:59:59Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BADGE_API}}/point",
+					"host": [
+						"{{BADGE_API}}"
+					],
+					"path": [
+						"point"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user points",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BADGE_API}}/point/1?start_date=2020-01-25T21:21:00Z&end_date=2022-02-25T18:21:00Z",
+					"host": [
+						"{{BADGE_API}}"
+					],
+					"path": [
+						"point",
+						"1"
+					],
+					"query": [
+						{
+							"key": "start_date",
+							"value": "2020-01-25T21:21:00Z"
+						},
+						{
+							"key": "end_date",
+							"value": "2022-02-25T18:21:00Z"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create org badge",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"doggie badge\",\n    \"image\":\"https://place.dog/300/300\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BADGE_API}}/badges/org/1",
+					"host": [
+						"{{BADGE_API}}"
+					],
+					"path": [
+						"badges",
+						"org",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get user badges",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BADGE_API}}/badges/user/1",
+					"host": [
+						"{{BADGE_API}}"
+					],
+					"path": [
+						"badges",
+						"user",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assign user badges",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{BADGE_API}}/badges/user/1?badge_id=1",
+					"host": [
+						"{{BADGE_API}}"
+					],
+					"path": [
+						"badges",
+						"user",
+						"1"
+					],
+					"query": [
+						{
+							"key": "badge_id",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{AUTH_TOKEN}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "AUTH_TOKEN",
+			"value": "-",
+			"type": "string"
+		},
+		{
+			"key": "BADGE_API",
+			"value": "http://localhost:9001/api/v1",
+			"type": "string"
+		}
+	]
+}
