@@ -1,0 +1,14 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 9002,
+            "askForPassword": true,
+            "driver": "PostgreSQL",
+            "name": "badge-pg",
+            "database": "cuely",
+            "username": "cuely"
+        }
+    ]
+}

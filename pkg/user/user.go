@@ -17,6 +17,7 @@ type User struct {
 	Picture      string    `json:"picture,omitempty"`
 	Password     string    `json:"-"`
 	PasswordHash string    `json:"-"`
+	Level        *int       `json:"level,omitempty"`
 	CreatedAt    time.Time `json:"created_at,omitempty"`
 	UpdatedAt    time.Time `json:"updated_at,omitempty"`
 }

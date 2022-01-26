@@ -1,5 +1,3 @@
-BEGIN;
-
 CREATE TABLE IF NOT EXISTS orgs (
     id SERIAL NOT NULL,
     name TEXT NOT NULL,

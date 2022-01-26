@@ -36,13 +36,16 @@ func (ur *UserRepository) GetAll(ctx context.Context) ([]user.User, error) {
 
 // GetOne returns one user by id.
 func (ur *UserRepository) GetOne(ctx context.Context, id uint) (user.User, error) {
-	row := ur.Data.DB.QueryRowContext(ctx, `SELECT id, first_name, last_name,
-	username, email, picture, created_at, updated_at
-	FROM users WHERE id = $1;`, id)
+	row := ur.Data.DB.QueryRowContext(ctx, `SELECT users.id, first_name, last_name,
+	username, email, picture, COALESCE(FLOOR(SUM(COALESCE(points,0)/10)),1) + 1 as level, users.created_at, users.updated_at
+	FROM users
+	LEFT JOIN points ON users.id = points.user_id
+	WHERE users.id = $1
+	GROUP BY users.id;`, id)
 
 	var u user.User
 	err := row.Scan(&u.ID, &u.FirstName, &u.LastName, &u.Username, &u.Email,
-		&u.Picture, &u.CreatedAt, &u.UpdatedAt)
+		&u.Picture, &u.Level, &u.CreatedAt, &u.UpdatedAt)
 	if err != nil {
 		return user.User{}, err
 	}
@@ -87,8 +90,7 @@ func (ur *UserRepository) Create(ctx context.Context, u *user.User) error {
 	defer stmt.Close()
 
 	row := stmt.QueryRowContext(ctx, u.OrgID, u.FirstName, u.LastName, u.Username, u.Email,
-		u.Picture, u.PasswordHash, time.Now(), time.Now(),
-	)
+		u.Picture, u.PasswordHash)
 
 	err = row.Scan(&u.ID)
 	if err != nil {

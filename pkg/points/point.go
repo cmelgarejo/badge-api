@@ -15,6 +15,7 @@ type Point struct {
 	UserID     uint      `json:"-"`
 	Points     float32   `json:"points,omitempty"`
 	Metadata   *string   `json:"metadata,omitempty"`
+	Level      int       `json:"level,omitempty"`
 	AssignedAt time.Time `json:"assigned_at,omitempty"`
 	CreatedAt  time.Time `json:"created_at,omitempty"`
 	UpdatedAt  time.Time `json:"updated_at,omitempty"`

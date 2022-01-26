@@ -9,8 +9,3 @@ services:
     env_file: .db.env
     ports:
       - '9002:5432'
-    volumes:
-      - database-data:/var/lib/postgresql-docker/data/
-
-volumes:
-  database-data: null
